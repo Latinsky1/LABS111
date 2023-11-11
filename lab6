@@ -1,22 +1,16 @@
-	cout << "Программа 2" << endl << endl;
-
-	// Хранение текста
-	string m;
-	string res[10];
-	bool orig;
-	bool t_slovo;
+		cout << "Программа 2" << endl << endl;
 
 	//Создание файла и чтение 
-	
+
 	short N;
 	string sl;
 	ifstream fin("input.txt");
-	
+
 	// Ввод слова
 	if (fin.is_open())
 		fin >> N >> sl;
 	else {
-		cout << "Введите слово: "; cin >> sl;
+		cout << "Файл закрыт. Введите слово: "; cin >> sl;
 		cout << "Введите Кол-во слов: "; cin >> N;
 	}
 
@@ -24,26 +18,18 @@
 		cout << "Число не в диапазоне. Диапазон: " << N;
 		N = 10;
 	}
-	cout << "Слово: " << sl;
+	cout << "Заданное слово: " << sl;
 
-	//Регистр
-	int id = 0;
-	string prav = sl;
-
-	for (int i = 0; i < sl.length(); i++) {
-		sl[i] = tolower(sl[i]);
-		int f;
-		for (f = 0; f < i; f++)
-			if (sl[i] == sl[f])
-				break;
-		if (i = f)
-			prav[id++] = sl[i];
-	}
-
-	prav.erase(id, sl.length() - id);
-
+	// Хранение текста
+	string m;
+	string res[10];
+	bool orig;
+	bool t_slovo;
 
 	ifstream file("text.txt");
+	if (not file.is_open()) {
+		cout << "Файл text.txt закрыт";
+	}
 	while (not file.eof()) {
 		file >> m;
 		t_slovo = true;
@@ -101,12 +87,15 @@
 	//Вывод 
 	ofstream fout("result.txt");
 	if (fout.is_open()) {
+		cout << endl <<  "Файл открыт" << endl;
 
 		for (int i = 0; i < N; i++)
 			fout << i + 1 << " " << res[i] << " " << res[i].length() << " " << endl;
-		cout << endl << "Результат: " << endl;
+		cout << "Результат: " << endl;
 	}
-	
+	else {
+		cout << "Файл не открыт" << endl << "Результат: ";
+	}
 	fout.close();
 
 	for (int i = 0; i < N; i++)
