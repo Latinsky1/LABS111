@@ -1,0 +1,268 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+
+using namespace std;
+
+int main() {
+
+	system("chcp 1251 >> null");
+	setlocale(LC_ALL, "Russian");
+
+
+	cout << "--------Программа 1--------" << endl << endl;
+
+	// Вывод букв типа "Символ - Код"
+	cout << "Буквы русского языка" << endl;
+	for (int i = -64; i < -32; i++) {
+		cout << (char)i << " " << i << " " << "   ";
+		cout << (char)(i + 32) << " " << i + 32 << " " << endl;
+	}
+
+	cout << (char)-88 << " " << -88 << " " << "   ";
+	cout << (char)-72 << " " << -72 << " " << endl << endl;
+
+	// Вывод символов типа "Символ - Код"
+	cout << "Знаки пунктуации" << endl;
+	cout << '.' << " " << (int)'.' << " " << "   ";
+	cout << ',' << " " << (int)',' << " " << endl;
+	cout << ';' << " " << (int)';' << " " << "   ";
+	cout << '-' << " " << (int)'-' << " " << endl;
+	cout << ':' << " " << (int)':' << " " << "   ";
+	cout << '"' << " " << (int)'"' << " " << endl;
+	cout << '!' << " " << (int)'!' << " " << "   ";
+	cout << '?' << " " << (int)'?' << " " << endl;
+	cout << ')' << " " << (int)')' << " " << "   ";
+	cout << '(' << " " << (int)'(' << " " << endl;
+	cout << ')' << " " << (int)')' << " " << "   ";
+	cout << '(' << " " << (int)'(' << " " << endl << endl;
+
+
+	bool sogl;
+	int znach2;
+	int k = 0;
+	int t = 0;
+	
+	char str[150] = "Я делал это под бразильский фонк, поэтому всё работает)";
+	char sog[42] = "бвгджзйклмнпрстфxцчшщ";
+	
+	cout << "Выберите продолжение задачи: " << endl;
+	cout << "Ввод с клавиатуры - 1, Ввод с кода - 2. Выберите значение: "; cin >> znach2;
+	
+
+	//Выбор метода
+	switch (znach2) 
+	{
+	case 1:
+	{	
+		cin.ignore();
+		cout << "Ограничение 150 символов.Введите желаемую строку: "; 
+		cin.getline(str, 150);
+		break;
+	}
+
+	case 2:
+	{	
+		cout << "Начальная строка: " << str << endl;
+		break;
+	}
+
+	default:
+	{
+		cout << "Неверное значение." << endl;
+		break;
+		
+	}
+	}
+
+	for (int i = 0; i < 101; i++) {
+		sogl = false;
+		for (int j = 0; j < 21; j++) {
+			if ((str[i] == (char)((int)sog[j] - 32)) or (str[i] == sog[j])) {
+				sogl = true;
+				break;
+			}
+		}
+		if (not sogl) {
+			str[k] = str[i];
+			k++;
+		}
+	}
+	for (int i = k; i < 101; i++)
+		str[i] = '\0';
+	
+	if (znach2 == 1 or znach2 == 2) {
+		cout << "Готовая строка: " << str << endl << endl;
+	}
+	
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	cout << "-------Программа 2-------" << endl << endl;
+
+	//Создание файла и чтение 
+
+	short N;
+	string sl;
+	ifstream fin("input.txt");
+
+	// Ввод слова
+	if (fin.is_open())
+		fin >> N >> sl;
+	else {
+		cout << "Файл не существует, Идет ввод клавиатуры. Введите слово: "; cin >> sl;
+		cout << "Введите Кол-во слов: "; cin >> N;
+	}
+
+	if (N > 10 or N < 0) {
+		cout << "Число не в диапазоне. Диапазон: " << N;
+		N = 10;
+	}
+	cout << "Слово: " << sl;
+
+	//Понижение регистра
+	for (int i = 0; i < sl.length(); i++)
+		sl[i] = tolower(sl[i]);
+
+	// Хранение текста
+	string m;
+	string res[10];
+	bool orig;
+	bool t_slovo;
+
+	ifstream file("text.txt");
+	if (not file.is_open()) {
+		cout << "Файл text.txt не существует";
+	}
+	while (not file.eof()) {
+		file >> m;
+		t_slovo = true;
+		int i = 0;
+
+		//Удаление ненужных символов в начале и в конце
+		while (!((m[0] >= 'А') and (m[0] <= 'я') or (m[0] == 'Ё') or (m[0] == 'ё') or (m[0] == '\0')) or !((m[0] == '\0') or (m.back() >= 'А') and (m.back() <= 'я') or (m.back() == 'Ё') or (m.back() == 'ё')))
+		{
+			if (!((m[0] >= 'А') and (m[0] <= 'я') or (m[0] == 'Ё') or (m[0] == 'ё')))
+				m.erase(0, 1);
+			else
+				m.erase(m.length() - 1, 1);
+		}
+
+		for (int i = 0; i < m.length(); i++) {
+			m[i] == tolower(m[i]);
+			for (int j = 0; j < sl.length(); j++) {
+				if (m[i] == sl[j]) {
+					t_slovo = false;
+					break;
+				}
+			}
+			if (not t_slovo)
+				break;
+		}
+
+
+		//Сравнение слов
+		if (t_slovo and not(m == "")) {
+			if (m.length() > res[N - 1].length()) {
+				orig = false;
+
+				for (int i = 0; i < N; i++) {
+					if (res[i] == "")
+						break;
+					if (m == res[i]) {
+						orig = true;
+						break;
+					}
+				}
+				if (not orig) {
+					res[N - 1] = m;
+
+					for (int i = N - 2; i >= 0; i--)
+						if (res[i].length() < res[i + 1].length())
+							swap(res[i], res[i + 1]);
+				}
+			}
+		}
+	}
+	file.close();
+
+	//Вывод 
+	ofstream fout("result.txt");
+	if (fout.is_open()) {
+		cout << endl << "Идёт сравнение..." << endl;
+
+		for (int i = 0; i < N; i++)
+			fout << i + 1 << " " << res[i] << " " << res[i].length() << " " << endl;
+		cout << "Результат: " << endl;
+	}
+	else {
+		cout << "Файл не существует" << endl;
+	}
+	fout.close();
+
+	for (int i = 0; i < N; i++)
+		cout << i + 1 << " " << res[i] << " " << res[i].length() << " " << endl;
+
+
+
+	//Создаем input.txt для ввода с файла и пишем "1-10" + "нужное слово"//
+
+
+	//Доп 3
+	
+	cout << endl << "-------Доп 3-------" << endl;
+
+	string strka;
+	bool palindrom = true;
+	cout << "Введите строку: "; cin >> strka;
+	int length = strka.length();
+	
+	//Проверка на полиндром
+	for (int i = 0; i < length / 2; i++) {
+		if (strka[i] != strka[length - i - 1]) {
+			palindrom = false;
+			break;
+		}
+	}
+	
+	if (palindrom) {
+		cout  << endl << "Палиндром" << endl;
+	}
+	else {
+
+		//Палиндром с выбором стороны
+
+		int znach;
+		cout << endl << "Не палиндром" << endl;
+		cout << "Слева направо - 1, Справо налево - 2. Выберите значение: "; cin >> znach;
+		if (znach == 1) {
+			for (int i = 0; i < length / 2; i++) {
+				strka[length - i - 1] = strka[i];
+			}
+		}
+		else if (znach == 2) {
+			for (int i = length - 1; i >= length / 2; i--) {
+				strka[length - i - 1] = strka[i];
+			}
+		}
+		else {
+			cout << "Неизвестное значение." << endl;
+		}
+
+		//Регистр середины UP
+		for (int i = 0; i < length; i++) {
+			strka[i] = tolower(strka[i]);
+		}
+
+		cout << "Новый палиндром: ";
+		strka[length / 2] = toupper(strka[length / 2]);
+
+		if (length % 2 == 0 and (znach == 1 or znach == 2)) {
+			strka[length / 2 - 1] = toupper(strka[length / 2 - 1]);
+		}
+
+		cout << strka << endl;
+	}
+		
+	return 0;
+}
