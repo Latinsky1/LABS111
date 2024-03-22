@@ -82,15 +82,15 @@ int main()
 
         // Добавление новых фигур
         if (circleStopped) {
-            float radius = 75.f + 25.f * std::sin(circleFlashClock.getElapsedTime().asSeconds() * 5); // "Пульсирование" радиуса круга
+            float radius = 30.f + 30.f * std::sin(circleFlashClock.getElapsedTime().asSeconds() * 5); // "Пульсирование" радиуса круга
             sf::CircleShape newCircle(radius);
             newCircle.setFillColor(sf::Color::Cyan);
-            newCircle.setPosition(circle.getPosition().x + (circle.getRadius() - newCircle.getRadius()), circle.getPosition().y + (circle.getRadius() - newCircle.getRadius())); // Смещение позиции нового круга
+            newCircle.setPosition(circle.getPosition().x - radius + circle.getRadius(), circle.getPosition().y - radius + circle.getRadius()); // Установка позиции нового круга
             window.draw(newCircle);
         }
 
         if (rectangleStopped) {
-            sf::Vector2f size = sf::Vector2f(150.f, 75.f) + sf::Vector2f(25.f * std::sin(rectangleFlashClock.getElapsedTime().asSeconds() * 5), 12.5f * std::sin(rectangleFlashClock.getElapsedTime().asSeconds() * 5)); // "Пульсирование" размеров прямоугольника
+            sf::Vector2f size = sf::Vector2f(100.f, 50.f) + sf::Vector2f(25.f * std::sin(rectangleFlashClock.getElapsedTime().asSeconds() * 5), 12.5f * std::sin(rectangleFlashClock.getElapsedTime().asSeconds() * 5)); // "Пульсирование" размеров прямоугольника
             sf::RectangleShape newRectangle(size);
             newRectangle.setFillColor(sf::Color::Cyan);
             newRectangle.setPosition(rectangle.getPosition().x - (newRectangle.getSize().x - rectangle.getSize().x) / 2.f, rectangle.getPosition().y + (rectangle.getSize().y - newRectangle.getSize().y) / 2.f); // Смещение позиции нового прямоугольника
@@ -98,7 +98,7 @@ int main()
         }
 
         if (squareStopped) {
-            sf::Vector2f size = sf::Vector2f(150.f, 150.f) + sf::Vector2f(25.f * std::sin(squareFlashClock.getElapsedTime().asSeconds() * 5), 25.f * std::sin(squareFlashClock.getElapsedTime().asSeconds() * 5)); // "Пульсирование" размеров квадрата
+            sf::Vector2f size = sf::Vector2f(100.f, 100.f) + sf::Vector2f(25.f * std::sin(squareFlashClock.getElapsedTime().asSeconds() * 5), 25.f * std::sin(squareFlashClock.getElapsedTime().asSeconds() * 5)); // "Пульсирование" размеров квадрата
             sf::RectangleShape newSquare(size);
             newSquare.setFillColor(sf::Color::Cyan);
             newSquare.setPosition(square.getPosition().x - (newSquare.getSize().x - square.getSize().x) / 2.f, square.getPosition().y - (newSquare.getSize().y - square.getSize().y) / 2.f); // Смещение позиции нового квадрата
